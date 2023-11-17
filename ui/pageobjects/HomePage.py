@@ -3,6 +3,7 @@ import time
 import allure
 
 from ui.pageobjects.BasePage import BasePage
+from ui.locators.homepagelocator import *
 
 
 class HomePage(BasePage):
@@ -14,6 +15,6 @@ class HomePage(BasePage):
         super(HomePage, self).__init__(driver)
 
     def search_a_phone_product(self):
-        self.enter(self.__txt_search, "phone")
+        self.enter(txt_user_name, "phone")
         self.click(self.__btn_search)
         self.click(self.__chkBox_adv_search)

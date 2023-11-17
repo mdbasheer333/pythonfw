@@ -8,23 +8,22 @@ import pytest_html
 class TestAddAddress:
 
     @pytest.mark.sanity
-    def test_edit_address(self, ui_browser):
-        url = os.getenv("qa_env")
-        ui_browser.get(url)
+    def test_edit_address(self, browser):
+        url = os.getenv("env_web")
+        browser.get(url)
 
     @pytest.mark.sanity
-    def test_add_address(self, ui_browser):
-        url = os.getenv("qa_env")
-        ui_browser.get(url)
+    def test_add_address(self, browser):
+        url = os.getenv("env_web")
+        browser.get(url)
 
-        login_page = LoginPage(ui_browser)
+        login_page = LoginPage(browser)
         login_page.login_to_app(os.getenv("app_user_id"), os.getenv("app_password"))
 
-        address_page = AddressPage(ui_browser)
+        address_page = AddressPage(browser)
         address_page.navigate_to_address()
 
         address_data = {
-
         }
 
         address_page.add_new_address()

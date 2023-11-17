@@ -9,13 +9,13 @@ from ui.utils.CustomAssert import CustomAssert
 class TestSearch:
 
     @pytest.mark.smoke
-    def test_search(self, ui_browser):
+    def test_search(self, browser):
         c_assert = CustomAssert()
 
-        url = os.getenv("qa_env")
-        ui_browser.get(url)
+        url = os.getenv("env_web")
+        browser.get(url)
 
-        home_page = HomePage(ui_browser)
+        home_page = HomePage(browser)
         home_page.search_a_phone_product()
         c_assert.compare_equal_to(1, 1)
         c_assert.compare_gte(2, 1)

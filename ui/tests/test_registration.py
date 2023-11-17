@@ -9,11 +9,11 @@ import os
 class TestRegisterUser:
 
     @pytest.mark.smoke
-    def test_register_user(self, ui_browser):
-        url = os.getenv("qa_env")
-        ui_browser.get(url)
+    def test_register_user(self, browser):
+        url = os.getenv("env_web")
+        browser.get(url)
 
-        register_page_obj = RegisterPage(ui_browser)
+        register_page_obj = RegisterPage(browser)
 
         with open("sample.json", 'r') as json_file:
             register_data = json.load(json_file)
