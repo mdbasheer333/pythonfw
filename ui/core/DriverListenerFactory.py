@@ -2,14 +2,14 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.events import AbstractEventListener
 from selenium.webdriver.support.events import EventFiringWebDriver
-
+from selenium.webdriver.remote.remote_connection import LOGGER
 import logging
 
 
 class WebDriverListener(AbstractEventListener):
 
     def __init__(self):
-        logging.basicConfig(level=logging.DEBUG)
+        logging.basicConfig(level=logging.INFO)
         self.logger = logging.getLogger(__name__)
 
     def before_navigate_to(self, url: str, driver) -> None:
@@ -67,11 +67,8 @@ class WebDriverListener(AbstractEventListener):
         self.logger.info(f"browser quit....!")
 
     def on_exception(self, exception: Exception, driver) -> None:
-        # print(f"an exception occurred..! {exception.with_traceback()}")
-        # self.logger.exception(exception)
-        # traceback.print_exc()
-        # self.logger.exception(exception)
-        pass
+        self.logger.error(exception.__dict__)
+        # self.logger.exception(exception.__dict__.get("msg"))
 
 
 class DriverFactory:
@@ -93,4 +90,5 @@ class DriverFactory:
             raise Exception("given wrong browser name ", browser_type)
         driver.maximize_window()
         driver = EventFiringWebDriver(driver, WebDriverListener())
+
         return driver

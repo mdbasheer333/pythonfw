@@ -1,9 +1,9 @@
-from selenium import webdriver
-import pytest
 import json
-import time
-from ui.pageobjects.RegisterPage import RegisterPage
 import os
+
+import pytest
+
+from ui.pageobjects.RegisterPage import RegisterPage
 
 
 class TestRegisterUser:

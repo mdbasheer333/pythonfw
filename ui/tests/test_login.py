@@ -1,8 +1,8 @@
-from selenium import webdriver
-import pytest
-from ui.pageobjects.AddressPage import AddressPage
-from ui.pageobjects.LoginPage import LoginPage
 import os
+
+import pytest
+
+from ui.pageobjects.LoginPage import LoginPage
 
 
 class TestLogin:

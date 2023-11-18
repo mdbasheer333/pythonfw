@@ -1,8 +1,8 @@
+import os
+
 import pytest
 
 from ui.pageobjects.HomePage import HomePage
-import os
-
 from ui.utils.CustomAssert import CustomAssert
 
 
