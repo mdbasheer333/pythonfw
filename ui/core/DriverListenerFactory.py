@@ -3,17 +3,20 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.events import AbstractEventListener
 from selenium.webdriver.support.events import EventFiringWebDriver
 
+import logging
+
 
 class WebDriverListener(AbstractEventListener):
 
     def __init__(self):
-        pass
+        logging.basicConfig(level=logging.DEBUG)
+        self.logger = logging.getLogger(__name__)
 
     def before_navigate_to(self, url: str, driver) -> None:
         pass
 
     def after_navigate_to(self, url: str, driver) -> None:
-        print(f"navigated to {url}")
+        self.logger.info(f"navigated to {url}")
 
     def before_navigate_back(self, driver) -> None:
         pass
@@ -55,16 +58,20 @@ class WebDriverListener(AbstractEventListener):
         pass
 
     def after_close(self, driver) -> None:
-        print(f"browser closed....!")
+        self.logger.info(f"browser closed....!")
 
     def before_quit(self, driver) -> None:
         pass
 
     def after_quit(self, driver) -> None:
-        print(f"browser quit....!")
+        self.logger.info(f"browser quit....!")
 
-    def on_exception(self, exception, driver) -> None:
-        print(f"an exception occurred..! {exception}")
+    def on_exception(self, exception: Exception, driver) -> None:
+        # print(f"an exception occurred..! {exception.with_traceback()}")
+        # self.logger.exception(exception)
+        # traceback.print_exc()
+        # self.logger.exception(exception)
+        pass
 
 
 class DriverFactory:

@@ -16,7 +16,7 @@ def browser_cmdln(request):
     return request.config.getoption("--browser")
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def browser_config(request):
     env_to_load = '.env.' + request.config.getoption("--env")
     logging.info("env to load is " + env_to_load)

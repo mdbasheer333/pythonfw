@@ -20,3 +20,4 @@ class TestSearch:
         c_assert.compare_equal_to(1, 1)
         c_assert.compare_gte(2, 1)
         c_assert.compare_lse_to(1, 2)
+
