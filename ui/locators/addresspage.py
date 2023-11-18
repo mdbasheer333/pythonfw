@@ -1,0 +1,20 @@
+from selenium.webdriver.common.by import By
+from ui.locators.locators import Locator
+
+my_act = Locator(By.LINK_TEXT, "My account", "my_act")
+link = Locator(By.XPATH, '/html/body/div[6]/div[3]/div/div[1]/div/div[2]/ul/li[2]/a', "link")
+addBtn = Locator(By.CLASS_NAME, 'add-button', "addBtn")
+fname = Locator(By.XPATH, '//*[@id="Address_FirstName"]', "fname")
+lname = Locator(By.XPATH, '//*[@id="Address_LastName"]', "lname")
+mail = Locator(By.XPATH, '//*[@id="Address_Email"]', "mail")
+adrCmpy = Locator(By.XPATH, '//*[@id="Address_Company"]', "adrCmpy")
+c_drp = Locator(By.XPATH, '//*[@id="Address_CountryId"]', "c_drp")
+adrCity = Locator(By.XPATH, '//*[@id="Address_City"]', "adrCity")
+adr1 = Locator(By.XPATH, '//*[@id="Address_Address1"]', "adr1")
+adr2 = Locator(By.XPATH, '//*[@id="Address_Address2"]', "adr2")
+zip = Locator(By.XPATH, '//*[@id="Address_ZipPostalCode"]', "zip")
+phone_num = Locator(By.XPATH, '//*[@id="Address_PhoneNumber"]', "phone_num")
+fax = Locator(By.XPATH, '//*[@id="Address_FaxNumber"]', "fax")
+rgBtn = Locator(By.XPATH, '/html/body/div[6]/div[3]/div/div[2]/form/div/div[2]/div[2]/button', "rgBtn")
+address_added_status = Locator(By.XPATH, '//*[@id="bar-notification"]/div/p', "address_added_status")
+notification = Locator(By.XPATH, '//*[@id="bar-notification"]/div/span', 'notification')
