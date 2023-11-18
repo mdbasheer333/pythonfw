@@ -37,13 +37,13 @@ class WebDriverListener(AbstractEventListener):
         pass
 
     def after_click(self, element, driver) -> None:
-        print(f"clicked on {element}")
+        pass
 
     def before_change_value_of(self, element, driver) -> None:
         pass
 
     def after_change_value_of(self, element, driver) -> None:
-        print(f"entered on {element}")
+        pass
 
     def before_execute_script(self, script, driver) -> None:
         pass
@@ -55,16 +55,16 @@ class WebDriverListener(AbstractEventListener):
         pass
 
     def after_close(self, driver) -> None:
-        pass
+        print(f"browser closed....!")
 
     def before_quit(self, driver) -> None:
         pass
 
     def after_quit(self, driver) -> None:
-        pass
+        print(f"browser quit....!")
 
     def on_exception(self, exception, driver) -> None:
-        pass
+        print(f"an exception occurred..! {exception}")
 
 
 class DriverFactory:

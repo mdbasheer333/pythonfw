@@ -18,17 +18,21 @@ class BasePage:
 
     def click(self, locator: Locator) -> None:
         locator.get_web_element(self.driver).click()
+        print(f"clicked on {locator.description} using locator {locator.loc_value}")
 
     def wait_click(self, locator: Locator) -> None:
         self.wait_for_element(locator)
         self.click(locator)
+        print(f"clicked on {locator.description} using locator {locator.loc_value}")
 
     def wait_enter(self, locator: Locator, value: str) -> None:
         self.wait_for_element(locator)
         self.enter(locator, value)
+        print(f"entered {value} on {locator.description} using locator {locator.loc_value}")
 
     def enter(self, locator: Locator, value: str) -> None:
         locator.get_web_element(self.driver).send_keys(value)
+        print(f"entered {value} on {locator.description} using locator {locator.loc_value}")
 
     def wait_for_element(self, locator: Locator) -> None:
         self.wait.until(EC.visibility_of(locator.get_web_element(self.driver)))
