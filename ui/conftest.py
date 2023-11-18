@@ -8,8 +8,11 @@ from ui.core.DriverListenerFactory import DriverFactory
 
 
 @pytest.fixture(scope="function")
-def browser(browser_config, browser_cmdln):
-    browser_type = browser_config if browser_cmdln is None else browser_cmdln
+def browser(config, browser_cmdln):
+    browser_type = config['browser'] if browser_cmdln == None else browser_cmdln
+    print(f"config['browser'] is {config['browser']}")
+    print(f"browser_cmdln is {browser_cmdln}")
+    print(f"browser is {browser_type}")
     driver = DriverFactory.get_driver(browser_type)
     yield driver
     driver.quit()

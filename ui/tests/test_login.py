@@ -8,8 +8,8 @@ from ui.pageobjects.LoginPage import LoginPage
 class TestLogin:
 
     @pytest.mark.regression
-    def test_login(self, browser):
-        url = os.getenv("env_web")
+    def test_login(self, config, browser):
+        url = config["env_web"]
         browser.get(url)
         login_page = LoginPage(browser)
         login_page.login_to_app("dummy@gmail.com", "bash#1234")

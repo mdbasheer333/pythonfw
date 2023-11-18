@@ -72,8 +72,10 @@ class WebDriverListener(AbstractEventListener):
 
 
 class DriverFactory:
+
     @staticmethod
     def get_driver(browser_type) -> EventFiringWebDriver:
+        # DriverFactory.logger.info(f"browser_type is {browser_type}....!")
         if browser_type == "chrome" or browser_type == "gc":
             service = Service()
             options = webdriver.ChromeOptions()

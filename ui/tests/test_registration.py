@@ -9,8 +9,8 @@ from ui.pageobjects.RegisterPage import RegisterPage
 class TestRegisterUser:
 
     @pytest.mark.smoke
-    def test_register_user(self, browser):
-        url = os.getenv("env_web")
+    def test_register_user(self, config, browser):
+        url = config["env_web"]
         browser.get(url)
 
         register_page_obj = RegisterPage(browser)
