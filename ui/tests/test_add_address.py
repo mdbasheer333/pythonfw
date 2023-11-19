@@ -1,7 +1,7 @@
 import os
 
 import pytest
-
+import allure
 from ui.pageobjects.AddressPage import AddressPage
 from ui.pageobjects.LoginPage import LoginPage
 from ui.utils.ExcelUtil import get_test_data
