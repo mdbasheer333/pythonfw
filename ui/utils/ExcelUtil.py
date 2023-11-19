@@ -24,7 +24,8 @@ def get_test_data_with_flags(data):
     for index, row in data.iterrows():
         test_name = row['TC_Name']
         flag = row['Run']
-        test_data[test_name] = flag.lower() == 'yes'  # Store test names with their corresponding flags
+        tc_path = row['TC_path']
+        test_data[tc_path+"::"+test_name] = flag.lower() == 'yes'  # Store test names with their corresponding flags
     return test_data
 
 
@@ -39,10 +40,4 @@ def select_tests_from_excel(exl_data):
     return tests_to_run
 
 
-def run_selected_tests():
-    excel_data = get_tc_list()
-    tests_to_execute = select_tests_from_excel(excel_data)
-    if tests_to_execute:
-        pytest.main(['-v', '-k', ' or '.join(tests_to_execute)])
-    else:
-        print("No tests to execute.")
+
