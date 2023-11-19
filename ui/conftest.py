@@ -1,8 +1,13 @@
 import logging
 import os
-import pathlib
+# import pathlib
 
 import pytest
+import pytest_html
+
+# import pytest_html
+
+# import pytest_html
 
 from ui.core.DriverListenerFactory import DriverFactory
 
@@ -47,6 +52,7 @@ def pytest_runtest_makereport(item, call):
         driver.save_screenshot(pth)
         xfail = hasattr(report, 'wasxfail')
         if (report.skipped and xfail) or (report.failed and not xfail):
+            # pth = pth.replace("\\testresults", "")
             extra.append(pytest_html.extras.image(pth))
             extra.append(pytest_html.extras.html('<div>FAIL REASON</div>'))
         report.extra = extra
