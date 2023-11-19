@@ -21,6 +21,5 @@ def browser_cmdln(request):
 def config(request):
     env_to_load = request.config.getoption("--env") + '.env'
     logging.info("env is " + env_to_load)
-    logging.info("bash1eer " + os.path.abspath(os.curdir) + "\\configs\\" + env_to_load)
     config = dotenv_values(os.path.abspath(os.curdir) + "\\configs\\" + env_to_load)
     return config
