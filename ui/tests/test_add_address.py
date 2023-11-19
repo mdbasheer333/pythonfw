@@ -4,7 +4,7 @@ import pytest
 
 from ui.pageobjects.AddressPage import AddressPage
 from ui.pageobjects.LoginPage import LoginPage
-from ui.utils.ExcelUtil import read_excel_data
+from ui.utils.ExcelUtil import get_test_data
 import logging
 
 
@@ -17,7 +17,7 @@ class TestAddAddress:
 
     @pytest.mark.sanity
     @pytest.mark.parametrize('test_data',
-                             read_excel_data('registerUser'))
+                             get_test_data('test_add_address'))
     def test_add_address(self, browser, test_data, config):
         url = config["env_web"]
         browser.get(url)
