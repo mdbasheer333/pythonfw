@@ -15,10 +15,7 @@ def run_selected_tests():
 
     if tests_to_execute:
         pytest_test_names = [f"{test_name}" for test_name in tests_to_execute]
-        # pytest.main(['--browser', f'{args.browser}', '--env', f'{args.env}', '--alluredir', './testresults/allurerepo/',
-        #              ''.join(pytest_test_names)])
-        pytest.main(['--browser', f'{args.browser}', '--env', f'{args.env}', ''.join(pytest_test_names)])
-
+        pytest.main(['--browser', f'{args.browser}', '--env', f'{args.env}'] + pytest_test_names)
     else:
         raise Exception("no tests found....!")
 

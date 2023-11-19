@@ -16,5 +16,6 @@ class LoginPage(BasePage):
         self.enter(txt_password, password)
         self.click(btn_login)
 
+    @allure.step
     def logout(self):
         self.wait_click(link_logout)

@@ -1,5 +1,6 @@
 import time
 
+import allure
 from selenium.webdriver.support.select import Select
 
 from ui.locators.addresspage import *
@@ -11,10 +12,12 @@ class AddressPage(BasePage):
     def __init__(self, driver):
         super().__init__(driver)
 
+    @allure.step
     def navigate_to_address(self):
         self.click(my_act)
         self.click(link)
 
+    @allure.step
     def add_new_address(self):
         self.click(addBtn)
         self.enter(fname, "basheer")
@@ -32,9 +35,11 @@ class AddressPage(BasePage):
         self.enter(fax, "78798798")
         self.click(rgBtn);
 
+    @allure.step
     def get_add_address_success_message(self):
         return address_added_status.get_web_element(self.driver).text
 
+    @allure.step
     def close_success_popup(self):
         self.click(notification)
         time.sleep(2)

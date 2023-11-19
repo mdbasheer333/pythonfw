@@ -1,3 +1,4 @@
+import allure
 from selenium.webdriver.support.select import Select
 
 from ui.locators.registerpage import *
@@ -9,6 +10,7 @@ class RegisterPage(BasePage):
     def __init__(self, driver):
         super().__init__(driver)
 
+    @allure.step
     def register_user(self, register_data):
         self.click(lnkReg)
         self.click(forChk)

@@ -8,6 +8,8 @@ from selenium.webdriver.support.wait import WebDriverWait
 from ui.locators.locators import Locator
 import allure
 
+from ui.utils.AllureStepLog import log_step
+
 
 class BasePage:
     def __init__(self, driver: WebDriver):
@@ -21,33 +23,32 @@ class BasePage:
 
     def click(self, locator: Locator) -> None:
         locator.get_web_element(self.driver).click()
-        self.logger.info(f"clicked on {locator.description} using locator {locator.loc_value}")
-        with allure.step(f"clicked on {locator.description} using locator {locator.loc_value}"):
-            pass
+        log_step(f"clicked on {locator.description} using locator {locator.loc_value}")
 
     def wait_click(self, locator: Locator) -> None:
         self.wait_for_element(locator)
         self.click(locator)
-        self.logger.info(f"clicked on {locator.description} using locator {locator.loc_value}")
-        allure.step(f"clicked on {locator.description} using locator {locator.loc_value}")
+        log_step(f"clicked on {locator.description} using locator {locator.loc_value}")
 
     def wait_enter(self, locator: Locator, value: str) -> None:
         self.wait_for_element(locator)
         self.enter(locator, value)
-        self.logger.info(f"entered {value} on {locator.description} using locator {locator.loc_value}")
-        allure.dynamic.description(f"entered {value} on {locator.description} using locator {locator.loc_value}")
+        log_step(f"entered {value} on {locator.description} using locator {locator.loc_value}")
 
     def enter(self, locator: Locator, value: str) -> None:
         locator.get_web_element(self.driver).send_keys(value)
-        self.logger.info(f"entered {value} on {locator.description} using locator {locator.loc_value}")
-        allure.dynamic.description(f"entered {value} on {locator.description} using locator {locator.loc_value}")
+        log_step(f"entered {value} on {locator.description} using locator {locator.loc_value}")
 
     def wait_for_element(self, locator: Locator) -> None:
         self.wait.until(EC.visibility_of(locator.get_web_element(self.driver)))
+        log_step(f"waiting for an element {locator.description} is success")
 
     def wait_for_element_clickable(self, locator: Locator) -> None:
         self.wait.until(EC.element_to_be_clickable(locator.get_web_element(self.driver)))
+        log_step(f"waiting for an element {locator.description} is success")
 
     def get_text(self, locator: Locator) -> str:
         self.wait_for_element(locator)
-        return locator.get_web_element(self.driver).text
+        text = locator.get_web_element(self.driver).text
+        log_step(f"element {locator.description} text is {text}")
+        return text
