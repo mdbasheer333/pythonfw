@@ -1,13 +1,6 @@
-import logging
+from ui.utils import logger
 import os
-# import pathlib
-
 import pytest
-import pytest_html
-
-# import pytest_html
-
-# import pytest_html
 
 from ui.core.DriverListenerFactory import DriverFactory
 
@@ -25,14 +18,11 @@ def pytest_html_report_title(report):
 
 
 def pytest_configure(config):
-    # config._metadata['browser'] = chrome
-    # config._metadata['env'] = qa
     pass
 
 
 @pytest.hookimpl(optionalhook=True)
 def pytest_html_results_summary(prefix, summary, postfix):
-    # prefix.extend([html.p("test....!")])
     pass
 
 
@@ -43,7 +33,7 @@ def pytest_runtest_makereport(item, call):
     report = outcome.get_result()
     extra = getattr(report, 'extra', [])
     if "ui/tests" in report.nodeid and report.when == 'setup':
-        logging.info(f"---------------{report.nodeid} test execution started----------------")
+        logger.logger.info(f"---------------{report.nodeid} test execution started----------------")
     if report.when == 'call':
         feature_request = item.funcargs['request']
         driver = feature_request.getfixturevalue('browser')
@@ -52,9 +42,8 @@ def pytest_runtest_makereport(item, call):
         driver.save_screenshot(pth)
         xfail = hasattr(report, 'wasxfail')
         if (report.skipped and xfail) or (report.failed and not xfail):
-            # pth = pth.replace("\\testresults", "")
             extra.append(pytest_html.extras.image(pth))
             extra.append(pytest_html.extras.html('<div>FAIL REASON</div>'))
         report.extra = extra
     if report.when == 'teardown':
-        logging.info(f"---------------{report.nodeid} test execution ended----------------")
+        logger.logger.info(f"---------------{report.nodeid} test execution ended----------------")
