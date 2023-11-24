@@ -1,4 +1,3 @@
-import logging
 from typing import List, Dict, Any, Optional
 
 from selenium.common import NoSuchElementException
@@ -9,6 +8,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.by import By
 from ui.locators.locators import Locator
+from ui.utils import logger
 
 
 class BasePage:
@@ -16,8 +16,7 @@ class BasePage:
         self.driver: WebDriver = driver
         self.timeout = 60
         self.wait: WebDriverWait = WebDriverWait(self.driver, self.timeout)
-        logging.basicConfig(level=logging.DEBUG)
-        self.logger = logging.getLogger(__name__)
+        self.logger = logger.logger
 
     def get_web_element(self, locator: Locator) -> WebElement:
         return locator.get_web_element(self.driver)
@@ -38,7 +37,8 @@ class BasePage:
         try:
             self.driver.execute_script("arguments[0].click();", locator.get_web_element(self.driver))
         except Exception as e:
-            print(f"JavaScript click failed:  {e} for locator '{locator.description}'")
+            self.logger.error(f"JavaScript click failed:  {e} for locator '{locator.description}'")
+            raise Exception(f"JavaScript click failed:  {e} for locator '{locator.description}'")
 
     def wait_enter(self, locator: Locator, value: str) -> None:
         self.wait_for_element(locator)

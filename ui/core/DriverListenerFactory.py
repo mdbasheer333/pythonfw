@@ -2,15 +2,14 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.events import AbstractEventListener
 from selenium.webdriver.support.events import EventFiringWebDriver
-from selenium.webdriver.remote.remote_connection import LOGGER
-import logging
+
+from ui.utils import logger
 
 
 class WebDriverListener(AbstractEventListener):
 
     def __init__(self):
-        logging.basicConfig(level=logging.INFO)
-        self.logger = logging.getLogger(__name__)
+        self.logger = logger.logger
 
     def before_navigate_to(self, url: str, driver) -> None:
         pass
@@ -68,14 +67,12 @@ class WebDriverListener(AbstractEventListener):
 
     def on_exception(self, exception: Exception, driver) -> None:
         self.logger.error(exception.__dict__)
-        # self.logger.exception(exception.__dict__.get("msg"))
 
 
 class DriverFactory:
 
     @staticmethod
     def get_driver(browser_type) -> EventFiringWebDriver:
-        # DriverFactory.logger.info(f"browser_type is {browser_type}....!")
         if browser_type == "chrome" or browser_type == "gc":
             service = Service()
             options = webdriver.ChromeOptions()
