@@ -1,3 +1,4 @@
+from typing import List
 
 from selenium.webdriver.ie.webdriver import WebDriver
 from selenium.webdriver.common.by import By
@@ -23,3 +24,5 @@ class Locator:
     def get_web_element(self, driver: WebDriver) -> WebElement:
         return driver.find_element(self.loc, self.loc_value)
 
+    def get_web_elements(self, driver: WebDriver) -> list[WebElement]:
+        return driver.find_elements(self.loc, self.loc_value)
