@@ -2,21 +2,20 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.events import AbstractEventListener
 from selenium.webdriver.support.events import EventFiringWebDriver
-from selenium.webdriver.remote.remote_connection import LOGGER
-import logging
+
+from ui.utils.AllureStepLog import log_step
 
 
 class WebDriverListener(AbstractEventListener):
 
     def __init__(self):
-        logging.basicConfig(level=logging.INFO)
-        self.logger = logging.getLogger(__name__)
+        pass
 
     def before_navigate_to(self, url: str, driver) -> None:
         pass
 
     def after_navigate_to(self, url: str, driver) -> None:
-        self.logger.info(f"navigated to {url}")
+        log_step(f"navigated to {url}")
 
     def before_navigate_back(self, driver) -> None:
         pass
@@ -58,24 +57,22 @@ class WebDriverListener(AbstractEventListener):
         pass
 
     def after_close(self, driver) -> None:
-        self.logger.info(f"browser closed....!")
+        log_step(f"browser closed....!")
 
     def before_quit(self, driver) -> None:
         pass
 
     def after_quit(self, driver) -> None:
-        self.logger.info(f"browser quit....!")
+        log_step(f"browser quit....!")
 
     def on_exception(self, exception: Exception, driver) -> None:
-        self.logger.error(exception.__dict__)
-        # self.logger.exception(exception.__dict__.get("msg"))
+        log_step(exception.__dict__)
 
 
 class DriverFactory:
 
     @staticmethod
     def get_driver(browser_type) -> EventFiringWebDriver:
-        # DriverFactory.logger.info(f"browser_type is {browser_type}....!")
         if browser_type == "chrome" or browser_type == "gc":
             service = Service()
             options = webdriver.ChromeOptions()

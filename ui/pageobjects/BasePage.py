@@ -1,5 +1,3 @@
-import logging
-
 from selenium.webdriver.ie.webdriver import WebDriver
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support import expected_conditions as EC
@@ -15,8 +13,6 @@ class BasePage:
     def __init__(self, driver: WebDriver):
         self.driver: WebDriver = driver
         self.wait: WebDriverWait = WebDriverWait(self.driver, 30)
-        logging.basicConfig(level=logging.DEBUG)
-        self.logger = logging.getLogger(__name__)
 
     def get_web_element(self, locator: Locator) -> WebElement:
         return locator.get_web_element(self.driver)
