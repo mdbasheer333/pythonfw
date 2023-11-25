@@ -3,6 +3,9 @@ import os
 
 import pytest
 
+from ui.utils import CommonLib
+from ui.utils.CommonLib import CommonLib
+
 
 # Read the Excel file and extract the data into a dictionary
 def get_test_data(fileName):
@@ -25,7 +28,7 @@ def get_test_data_with_flags(data):
         test_name = row['TC_Name']
         flag = row['Run']
         tc_path = row['TC_path']
-        test_data[tc_path+"::"+test_name] = flag.lower() == 'yes'  # Store test names with their corresponding flags
+        test_data[tc_path + "::" + test_name] = flag.lower() == 'yes'  # Store test names with their corresponding flags
     return test_data
 
 
@@ -40,4 +43,10 @@ def select_tests_from_excel(exl_data):
     return tests_to_run
 
 
-
+def export_to_excel():
+    existing_data = pd.read_excel(
+        "./testresults/" + CommonLib.get_timestamp_folder() + 'test_execution_list.xlsx')
+    new_data = pd.DataFrame(CommonLib.get_global_test_results())
+    combined_data = pd.concat([existing_data, new_data], ignore_index=True)
+    combined_data.to_excel("./testresults/" + CommonLib.get_timestamp_folder() + 'test_execution_list.xlsx',
+                           index=False)
