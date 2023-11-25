@@ -20,6 +20,8 @@ def run_selected_tests():
         pytest_test_names = [f"{test_name}" for test_name in tests_to_execute]
         lst = ['--html', f'./testresults/{CommonLib.get_timestamp_folder()}/testresults.html',
                '--self-contained-html',
+               '--alluredir',
+               f'./testresults/{CommonLib.get_timestamp_folder()}/allurerepo/',
                '--junitxml', f'./testresults/{CommonLib.get_timestamp_folder()}/testresults.xml',
                '--browser', f'{args.browser}', '--env', f'{args.env}'] + pytest_test_names
         pytest.main(lst)
