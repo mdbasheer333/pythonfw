@@ -17,9 +17,10 @@ def run_selected_tests():
 
     if tests_to_execute:
         pytest_test_names = [f"{test_name}" for test_name in tests_to_execute]
-        pytest.main(['--html', f'{TimestampFolder.get_timestamp_folder()}/testresults.html', '--self-contained-html',
-                     '--junitxml', f'{TimestampFolder.get_timestamp_folder()}/testresults.xml',
-                     '--browser', f'{args.browser}', '--env', f'{args.env}', ''.join(pytest_test_names)])
+        lst = ['--html', f'{TimestampFolder.get_timestamp_folder()}/testresults.html', '--self-contained-html',
+               '--junitxml', f'{TimestampFolder.get_timestamp_folder()}/testresults.xml',
+               '--browser', f'{args.browser}', '--env', f'{args.env}'] + pytest_test_names
+        pytest.main(lst)
     else:
         raise Exception("no tests found....!")
 
