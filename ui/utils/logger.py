@@ -9,7 +9,7 @@ logger.setLevel(logging.DEBUG)
 
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
-file_handler = logging.FileHandler(TimestampFolder.get_timestamp_folder() + '/automation.log', mode='w')
+file_handler = logging.FileHandler("./testresults/"+TimestampFolder.get_timestamp_folder() + '/automation.log', mode='w')
 file_handler.setLevel(logging.DEBUG)
 file_handler.setFormatter(formatter)
 

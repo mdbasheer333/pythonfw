@@ -3,6 +3,7 @@ import os
 import pytest
 
 from ui.core.DriverListenerFactory import DriverFactory
+from ui.utils.CommonLib import TimestampFolder
 
 
 @pytest.fixture(scope="function")
@@ -38,11 +39,11 @@ def pytest_runtest_makereport(item, call):
         feature_request = item.funcargs['request']
         driver = feature_request.getfixturevalue('browser')
         fl_name = report.nodeid.replace("::", "_").split(".py")[1] + '.png'
-        pth = os.path.abspath(os.curdir) + "\\testresults\\screenshots\\" + fl_name
-        driver.save_screenshot(pth)
+        pth = TimestampFolder.get_timestamp_folder() + "screenshots/" + fl_name
+        driver.save_screenshot("./testresults/" + pth)
         xfail = hasattr(report, 'wasxfail')
         if (report.skipped and xfail) or (report.failed and not xfail):
-            extra.append(pytest_html.extras.image(pth))
+            extra.append(pytest_html.extras.image("../" + pth, 'image link'))
             extra.append(pytest_html.extras.html('<div>FAIL REASON</div>'))
         report.extra = extra
     if report.when == 'teardown':
