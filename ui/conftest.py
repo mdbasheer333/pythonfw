@@ -27,13 +27,6 @@ def pytest_html_results_summary(prefix, summary, postfix):
     pass
 
 
-def pytest_runtest_makereport(item, call):
-    if call.when == 'call':
-        outcome = call.excinfo if call.excinfo else None
-        CommonLib.set_global_test_results(
-            {'TC_Name': item.name, 'Status': call.excinfo.typename if outcome else 'Passed'})
-
-
 @pytest.hookimpl(hookwrapper=True)
 def pytest_runtest_makereport(item, call):
     pytest_html = item.config.pluginmanager.getplugin('html')

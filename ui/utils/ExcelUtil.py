@@ -46,7 +46,16 @@ def select_tests_from_excel(exl_data):
 def export_to_excel():
     existing_data = pd.read_excel(
         "./testresults/" + CommonLib.get_timestamp_folder() + 'test_execution_list.xlsx')
-    new_data = pd.DataFrame(CommonLib.get_global_test_results())
-    combined_data = pd.concat([existing_data, new_data], ignore_index=True)
-    combined_data.to_excel("./testresults/" + CommonLib.get_timestamp_folder() + 'test_execution_list.xlsx',
+    """
+    .\\pythonfw\\ui\\utils\\ExcelUtil.py:52: 
+    FutureWarning: Setting an item of incompatible dtype is deprecated and will raise in a future error of pandas. Value '
+    Passed' has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+    IGNORE THIS WARNING AND REFER TO BELOW 
+    https://github.com/pandas-dev/pandas/issues/55025
+    """
+    for result in CommonLib.get_global_test_results():
+        test_case_name = result['TC_Name']
+        new_status = result['Status']
+        existing_data.loc[existing_data['TC_Name'] == test_case_name, 'Status'] = new_status
+    existing_data.to_excel("./testresults/" + CommonLib.get_timestamp_folder() + 'test_execution_list.xlsx',
                            index=False)

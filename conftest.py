@@ -4,6 +4,8 @@ import pytest
 from dotenv import load_dotenv
 from dotenv import dotenv_values
 
+from ui.utils.CommonLib import CommonLib
+
 
 def pytest_addoption(parser):
     parser.addoption("--browser", action="store", default=None,
@@ -23,3 +25,10 @@ def config(request):
     logging.info("env is " + env_to_load)
     config = dotenv_values(os.path.abspath(os.curdir) + "\\configs\\" + env_to_load)
     return config
+
+
+def pytest_runtest_makereport(item, call):
+    if call.when == 'call':
+        outcome = call.excinfo if call.excinfo else None
+        CommonLib.set_global_test_results(
+            {'TC_Name': item.name, 'Status': 'Failed' if outcome else 'Passed'})
