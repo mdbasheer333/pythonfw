@@ -22,6 +22,7 @@ def run_selected_tests():
                '--self-contained-html',
                '--alluredir',
                f'./testresults/{CommonLib.get_timestamp_folder()}/allurerepo/',
+               '--allure-no-capture',
                '--junitxml', f'./testresults/{CommonLib.get_timestamp_folder()}/testresults.xml',
                '--browser', f'{args.browser}', '--env', f'{args.env}'] + pytest_test_names
         pytest.main(lst)

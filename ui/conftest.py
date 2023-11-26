@@ -1,8 +1,11 @@
-from ui.utils import logger
 import os
+
+import allure
 import pytest
+from allure import attachment_type
 
 from ui.core.DriverListenerFactory import DriverFactory
+from ui.utils import logger
 from ui.utils.CommonLib import CommonLib
 
 
@@ -43,7 +46,9 @@ def pytest_runtest_makereport(item, call):
         driver.save_screenshot("./testresults/" + pth)
         xfail = hasattr(report, 'wasxfail')
         if (report.skipped and xfail) or (report.failed and not xfail):
-            extra.append(pytest_html.extras.image("../" + pth, 'image link'))
+            allure.attach.file(os.path.join("", "./testresults/" + pth), name="PNG example",
+                               attachment_type=attachment_type.PNG)
+            extra.append(pytest_html.extras.image("../" + pth, 'screenshot'))
             extra.append(pytest_html.extras.html('<div>FAIL REASON</div>'))
         report.extra = extra
     if report.when == 'teardown':
