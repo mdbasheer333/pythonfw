@@ -5,15 +5,17 @@ import pytest
 from allure import attachment_type
 
 from ui.core.DriverListenerFactory import DriverFactory
-from ui.utils import logger
+from ui.utils import logger, allurelog
 from ui.utils.CommonLib import CommonLib
 
 
 @pytest.fixture(scope="function")
 def browser(config, browser_cmdln):
     browser_type = config['browser'] if browser_cmdln == None else browser_cmdln
+    allurelog.log_step(f"browser is {browser_type}")
     driver = DriverFactory.get_driver(browser_type)
     yield driver
+    allurelog.log_step(f"browser is closed...!")
     driver.quit()
 
 

@@ -1,9 +1,9 @@
 import os
-import logging
+
 import pytest
-from dotenv import load_dotenv
 from dotenv import dotenv_values
 
+from ui.utils import logger, allurelog
 from ui.utils.CommonLib import CommonLib
 
 
@@ -22,7 +22,8 @@ def browser_cmdln(request):
 @pytest.fixture(scope="session")
 def config(request):
     env_to_load = request.config.getoption("--env") + '.env'
-    logging.info("env is " + env_to_load)
+    logger.logger.info(f"env is {env_to_load}")
+    allurelog.log_step(f"env is {env_to_load}")
     config = dotenv_values(os.path.abspath(os.curdir) + "\\configs\\" + env_to_load)
     return config
 

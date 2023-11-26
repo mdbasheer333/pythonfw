@@ -3,7 +3,7 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.events import AbstractEventListener
 from selenium.webdriver.support.events import EventFiringWebDriver
 
-from ui.utils import logger
+from ui.utils import logger, allurelog
 
 
 class WebDriverListener(AbstractEventListener):
@@ -16,6 +16,7 @@ class WebDriverListener(AbstractEventListener):
 
     def after_navigate_to(self, url: str, driver) -> None:
         self.logger.info(f"navigated to {url}")
+        allurelog.log_step(f"navigated to {url}")
 
     def before_navigate_back(self, driver) -> None:
         pass
@@ -58,15 +59,18 @@ class WebDriverListener(AbstractEventListener):
 
     def after_close(self, driver) -> None:
         self.logger.info(f"browser closed....!")
+        allurelog.log_step(f"browser closed....!")
 
     def before_quit(self, driver) -> None:
         pass
 
     def after_quit(self, driver) -> None:
         self.logger.info(f"browser quit....!")
+        allurelog.log_step(f"browser quit....!")
 
     def on_exception(self, exception: Exception, driver) -> None:
         self.logger.error(exception.__dict__)
+        allurelog.log_step(exception.__dict__)
 
 
 class DriverFactory:
@@ -86,6 +90,8 @@ class DriverFactory:
             driver = webdriver.Remote(
                 command_executor="http://10.0.0.10:4444")
         else:
+            allurelog.log_step(f"given wrong browser name {browser_type}")
+            logger.logger.critical(f"given wrong browser name {browser_type}")
             raise Exception("given wrong browser name ", browser_type)
         driver.maximize_window()
         driver = EventFiringWebDriver(driver, WebDriverListener())
