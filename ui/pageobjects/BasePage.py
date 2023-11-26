@@ -8,7 +8,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.by import By
 from ui.locators.locators import Locator
-from ui.utils import logger
+from ui.utils import logger, allurelog
 
 
 class BasePage:
@@ -27,27 +27,33 @@ class BasePage:
     def click(self, locator: Locator) -> None:
         locator.get_web_element(self.driver).click()
         self.logger.info(f"clicked on '{locator.description}' using locator '{locator.loc_value}'")
+        allurelog.log_step(f"clicked on '{locator.description}' using locator '{locator.loc_value}'")
 
     def wait_click(self, locator: Locator) -> None:
         self.wait_for_element(locator)
         self.click(locator)
         self.logger.info(f"clicked on '{locator.description}' using locator '{locator.loc_value}'")
+        allurelog.log_step(f"clicked on '{locator.description}' using locator '{locator.loc_value}'")
 
     def js_click_element(self, locator: Locator) -> None:
         try:
             self.driver.execute_script("arguments[0].click();", locator.get_web_element(self.driver))
+            allurelog.log_step(f"clicked on '{locator.description}' using locator '{locator.loc_value}'")
         except Exception as e:
             self.logger.error(f"JavaScript click failed:  {e} for locator '{locator.description}'")
+            allurelog.log_step(f"JavaScript click failed:  {e} for locator '{locator.description}'")
             raise Exception(f"JavaScript click failed:  {e} for locator '{locator.description}'")
 
     def wait_enter(self, locator: Locator, value: str) -> None:
         self.wait_for_element(locator)
         self.enter(locator, value)
         self.logger.info(f"entered '{value}' on '{locator.description}' using locator '{locator.loc_value}'")
+        allurelog.log_step(f"entered '{value}' on '{locator.description}' using locator '{locator.loc_value}'")
 
     def enter(self, locator: Locator, value: str) -> None:
         locator.get_web_element(self.driver).send_keys(value)
         self.logger.info(f"entered '{value}' on '{locator.description}' using locator '{locator.loc_value}'")
+        allurelog.log_step(f"entered '{value}' on '{locator.description}' using locator '{locator.loc_value}'")
 
     def is_element_present(self, locator: Locator) -> bool:
         try:
@@ -61,10 +67,12 @@ class BasePage:
     def wait_for_element(self, locator: Locator) -> None:
         self.wait.until(EC.visibility_of(locator.get_web_element(self.driver)))
         self.logger.info(f"element '{locator.description}' found")
+        allurelog.log_step(f"element '{locator.description}' found")
 
     def wait_for_element_clickable(self, locator: Locator) -> None:
         self.wait.until(EC.element_to_be_clickable(locator.get_web_element(self.driver)))
         self.logger.info(f"element '{locator.description}' found and clickable")
+        allurelog.log_step(f"element '{locator.description}' found and clickable")
 
     def get_text(self, locator: Locator) -> str:
         return locator.get_web_element(self.driver).text
@@ -90,22 +98,28 @@ class BasePage:
             self.driver.switch_to.window(handle)
             if title in self.driver.title:
                 self.logger.info(f"Window with title '{title}' found.")
+                allurelog.log_step(f"Window with title '{title}' found.")
                 return handle
         self.driver.switch_to.window(current_window_handle)
         self.logger.error(f"Window with title '{title}' not found.")
+        allurelog.log_step(f"Window with title '{title}' not found.")
         raise Exception(f"Window with title '{title}' not found.")
 
     def move_to_element(self, locator: Locator) -> None:
         ActionChains(self.driver).move_to_element(locator.get_web_element(self.driver)).perform()
         self.logger.info(f"moved to element '{locator.description}'")
+        allurelog.log_step(f"moved to element '{locator.description}'")
 
     def select_dropdown_by_visible_text(self, locator: Locator, text: str) -> None:
         try:
             from selenium.webdriver.support.ui import Select
             select = Select(locator.get_web_element(self.driver))
             select.select_by_visible_text(text)
+            self.logger.info(f"selected '{text}' from dropdown {locator.description}")
+            allurelog.log_step(f"selected '{text}' from dropdown {locator.description}")
         except Exception as e:
             self.logger.error(f"Selection by visible text '{text}' failed for '{locator.description}', reason is {e}")
+            allurelog.log_step(f"Selection by visible text '{text}' failed for '{locator.description}', reason is {e}")
             raise Exception(f"Selection by visible text '{text}' failed for '{locator.description}', reason is {e}")
 
     def get_dropdown_options(self, locator: Locator) -> List[str]:
@@ -114,18 +128,24 @@ class BasePage:
             select = Select(locator.get_web_element(self.driver))
             vals = [option.text for option in select.options]
             self.logger.info(f"values of '{locator.description}' are {vals}")
+            allurelog.log_step(f"values of '{locator.description}' are {vals}")
             return vals
         except Exception as e:
             self.logger.error(f"Failed to retrieve '{locator.description}' dropdown options: {e}")
+            allurelog.log_step(f"Failed to retrieve '{locator.description}' dropdown options: {e}")
             raise Exception(f"Failed to retrieve '{locator.description}' dropdown options: {e}")
 
     def get_selected_option(self, locator: Locator) -> str:
         try:
             from selenium.webdriver.support.ui import Select
             select = Select(locator.get_web_element(self.driver))
-            return select.first_selected_option.text
+            text = select.first_selected_option.text
+            self.logger.info(f"selected option is '{text}' for '{locator.description}")
+            allurelog.log_step(f"selected option is '{text}' for '{locator.description}")
+            return text
         except Exception as e:
             self.logger.error(f"Failed to retrieve '{locator.description}' dropdown options: {e}")
+            allurelog.log_step(f"Failed to retrieve '{locator.description}' dropdown options: {e}")
             raise Exception(f"Failed to retrieve '{locator.description}' dropdown options: {e}")
 
     def wait_for_page_load(self):
@@ -133,8 +153,11 @@ class BasePage:
             WebDriverWait(self.driver, self.timeout).until(
                 lambda driver: driver.execute_script("return document.readyState") == "complete"
             )
+            self.logger.info(f"Page loaded.....!")
+            allurelog.log_step(f"Page loaded.....!")
         except Exception as e:
             self.logger.error(f"Page load timeout: {e}")
+            allurelog.log_step(f"Page load timeout: {e}")
 
     def get_table_rows(self, table_element: Locator) -> List[WebElement]:
         try:
@@ -142,6 +165,7 @@ class BasePage:
             return rows
         except Exception as e:
             self.logger.warning(f"Failed to retrieve table rows: {e}")
+            allurelog.log_step(f"Failed to retrieve table rows: {e}")
             return []
 
     def get_table_columns(self, row_element: WebElement) -> List[WebElement]:
@@ -150,6 +174,7 @@ class BasePage:
             return columns
         except Exception as e:
             self.logger.warning(f"Failed to retrieve table columns: {e}")
+            allurelog.log_step(f"Failed to retrieve table columns: {e}")
             return []
 
     def get_cell_text(self, cell_element: WebElement) -> Optional[str]:
@@ -157,6 +182,7 @@ class BasePage:
             return cell_element.text
         except Exception as e:
             self.logger.warning(f"Failed to retrieve cell text: {e}")
+            allurelog.log_step(f"Failed to retrieve cell text: {e}")
             return None
 
     def get_table_values_as_list_of_dicts(self, table_element: Locator) -> List[Dict[str, Any]]:
@@ -170,9 +196,12 @@ class BasePage:
                 for index, column in enumerate(columns):
                     row_data[headers[index]] = self.get_cell_text(column)
                 table_values.append(row_data)
+            self.logger.info(f"table {table_element.description} data is {table_values}")
+            allurelog.log_step(f"table {table_element.description} data is {table_values}")
             return table_values
         except Exception as e:
             self.logger.warning(f"Failed to retrieve table '{table_element.description}' values: {e}")
+            allurelog.log_step(f"Failed to retrieve table '{table_element.description}' values: {e}")
             return []
 
     def get_cell_value(self, table_element: Locator, row_num: int, col_num: int) -> Optional[str]:
@@ -183,6 +212,7 @@ class BasePage:
             return cell_text
         except Exception as e:
             self.logger.warning(f"Failed to retrieve cell value: {e} for '{table_element.description}'")
+            allurelog.log_step(f"Failed to retrieve cell value: {e} for '{table_element.description}'")
             return None
 
     def close(self) -> None:
