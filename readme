@@ -1,0 +1,15 @@
+how to run:
+    python run_tests.py --browser chrome --env qa
+    --browser, --env are optional
+how allure works:
+    every machine should have allure command line zip downloaded and added to system env variable
+    download from here allure-commandline-2.8.0.zip
+    https://repo.maven.apache.org/maven2/io/qameta/allure/allure-commandline/2.8.0/
+how to see allure report:
+    go to allure folder, open command line and run 'allure serve .'
+how to generate allure report:
+     go to allure folder, open command line and run 'allure generate'
+     once report generated, you can zip and send mail
+     but it will not open directly in browser
+     we need to unzip, open command line, go to that path
+     then run 'allure open'
