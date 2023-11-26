@@ -28,6 +28,8 @@ class CommonLib:
     @staticmethod
     def create_timestamp_folder():
         CommonLib.set_timestamp_folder()
+        if not os.path.exists("./testresults/"):
+            os.makedirs("./testresults/")
         if not os.path.exists("./testresults/" + CommonLib.get_timestamp_folder()):
             os.makedirs("./testresults/" + CommonLib.get_timestamp_folder())
             os.makedirs("./testresults/" + CommonLib.get_timestamp_folder() + "/screenshots/")
